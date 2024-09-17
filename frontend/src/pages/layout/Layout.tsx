@@ -8,7 +8,18 @@ import Contoso from '../../assets/Contoso.svg'
 import { HistoryButton, ShareButton } from '../../components/common/Button'
 import { AppStateContext } from '../../state/AppProvider'
 
+import * as React from 'react'
+import { CompoundButton } from '@fluentui/react/lib/Button'
+import { Stack, IStackTokens } from '@fluentui/react'
+
 import styles from './Layout.module.css'
+
+export interface IButtonExampleProps {
+  disabled?: boolean
+  checked?: boolean
+}
+
+const stackTokens: IStackTokens = { childrenGap: 40 }
 
 const Layout = () => {
   const [isSharePanelOpen, setIsSharePanelOpen] = useState<boolean>(false)
@@ -38,6 +49,21 @@ const Layout = () => {
 
   const handleHistoryClick = () => {
     appStateContext?.dispatch({ type: 'TOGGLE_CHAT_HISTORY' })
+  }
+
+  const ButtonCompound: React.FunctionComponent<IButtonExampleProps> = props => {
+    const { disabled, checked } = props
+
+    return (
+      <Stack horizontal tokens={stackTokens}>
+        <CompoundButton secondaryText="This is the secondary text." disabled={disabled} checked={checked}>
+          Standard
+        </CompoundButton>
+        <CompoundButton primary secondaryText="This is the secondary text." disabled={disabled} checked={checked}>
+          Primary
+        </CompoundButton>
+      </Stack>
+    )
   }
 
   useEffect(() => {
